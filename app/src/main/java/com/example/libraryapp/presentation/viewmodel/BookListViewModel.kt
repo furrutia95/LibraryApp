@@ -1,5 +1,6 @@
 package com.example.libraryapp.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,8 @@ import kotlinx.coroutines.launch
 class BookListViewModel : ViewModel() {
 
     private val getBooksUseCase = UseCaseProvider.provideGetBooksUseCase()
-   // private val addBookUseCase = UseCaseProvider.provideAddBookUseCase()
+    private val addBookUseCase = UseCaseProvider.provideAddBookUseCase()
+    private val deleteBookUseCase = UseCaseProvider.provideDeleteBookUseCase()
 
     private val _books = MutableLiveData<List<Book>>()
     val books: LiveData<List<Book>> = _books
@@ -40,12 +42,28 @@ class BookListViewModel : ViewModel() {
         }
     }
 
-    fun addBook(title: String, author: String, year: Int, description: String) {
+    fun addBook(title: String, author: String, year: String, description: String, isAvailable: Boolean) {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-           //     addBookUseCase(title, author, year, description)
+                addBookUseCase(title, author, year, description, isAvailable)
                 loadBooks() // Recargar lista después de agregar
+                Log.d("BookListViewModel", "Book added successfully")
+                _error.value = null
+            } catch (e: Exception) {
+                _error.value = e.message
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun deleteBook(id: Int) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                deleteBookUseCase(id)
+                loadBooks()
                 _error.value = null
             } catch (e: Exception) {
                 _error.value = e.message

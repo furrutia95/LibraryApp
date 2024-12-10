@@ -11,7 +11,8 @@ import com.example.libraryapp.databinding.ItemBookBinding
 import com.example.libraryapp.domain.model.Book
 
 class BookAdapter(
-    private val onItemClick: (Book) -> Unit
+    private val onItemClick: (Book) -> Unit,
+    private val onDeleteBook: (Int) -> Unit
 ) : ListAdapter<Book, BookAdapter.BookViewHolder>(BookDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -38,6 +39,14 @@ class BookAdapter(
                     onItemClick(getItem(position))
                 }
             }
+
+            binding.deleteButton.setOnClickListener {
+                val book = getItem(adapterPosition)
+                if (book != null) {
+                    onDeleteBook(book.id) // Llama a onDeleteBook con el ID del libro
+                }
+            }
+
         }
 
         fun bind(book: Book) {

@@ -2,8 +2,9 @@ package com.example.libraryapp.domain.usecase
 
 object UseCaseProvider {
     private var getBooksUseCase: GetBooksUseCase? = null
-    //private var getBookDetailUseCase: GetBookDetailUseCase? = null
-    //private var addBookUseCase: AddBookUseCase? = null
+    private var getBookDetailUseCase: GetBookByIdUseCase? = null
+    private var addBookUseCase: AddBookUseCase? = null
+    private var deleteBookUseCase: DeleteBookUseCase? = null
 
     fun provideGetBooksUseCase(): GetBooksUseCase {
         if (getBooksUseCase == null) {
@@ -13,9 +14,9 @@ object UseCaseProvider {
     }
 
     // TODO implement the useCases first
-  /*  fun provideGetBookDetailUseCase(): GetBookDetailUseCase {
+  fun provideGetBookDetailUseCase(): GetBookByIdUseCase {
         if (getBookDetailUseCase == null) {
-            getBookDetailUseCase = GetBookDetailUseCase()
+            getBookDetailUseCase = GetBookByIdUseCase()
         }
         return getBookDetailUseCase!!
     }
@@ -25,5 +26,13 @@ object UseCaseProvider {
             addBookUseCase = AddBookUseCase()
         }
         return addBookUseCase!!
-    }*/
+    }
+
+    fun provideDeleteBookUseCase(): DeleteBookUseCase {
+        if (deleteBookUseCase == null) {
+            deleteBookUseCase = DeleteBookUseCase()
+        }
+        return deleteBookUseCase!!
+    }
+
 }

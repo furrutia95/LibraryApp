@@ -16,4 +16,36 @@ class BookRepositoryImpl: BookRepository {
         }
     }
 
+    override suspend fun addBook(book: Book) {
+        return try {
+            localDataSource.addBook(book)
+        } catch (e: Exception) {
+            throw Exception("Error adding book", e)
+        }
+    }
+
+    override suspend fun getBook(id: Int): Book? {
+        return try {
+            localDataSource.getBook(id)
+        } catch (e: Exception) {
+            throw Exception("Error fetching book", e)
+        }
+    }
+
+    override suspend fun deleteBook(id: Int) {
+        return try {
+            localDataSource.deleteBook(id)
+        } catch (e: Exception) {
+            throw Exception("Error deleting book", e)
+        }
+
+    }
+//    override suspend fun updateBook(book: Book) {
+//        return try {
+//            localDataSource.updateBook(book)
+//        } catch (e: Exception) {
+//            throw Exception("Error updating book", e)
+//        }
+//    }
+
 }
